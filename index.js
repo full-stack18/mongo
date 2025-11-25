@@ -18,3 +18,23 @@ mongoose.connect(MONGO_URI)
     process.exit(1);
   });
 
+// Configurar Express
+const express = require("express");
+const app = express();
+
+// Importar rutas
+const authRoutes = require("./router/auth");
+
+// Middlewares
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Configurar rutas
+app.use(`/api/${API_VERSION}`, authRoutes);
+
+// Iniciar servidor
+const PORT = process.env.PORT || 3977;
+app.listen(PORT, () => {
+    console.log(`🚀 Servidor corriendo en http://${IP_SERVER}:${PORT}`);
+    console.log(`📡 API: http://${IP_SERVER}:${PORT}/api/${API_VERSION}`);
+});
